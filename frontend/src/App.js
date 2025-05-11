@@ -4,7 +4,9 @@ import './App.css';
 
 function App() {
   const [file, setFile] = useState(null);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -24,10 +26,19 @@ function App() {
         },
       });
       setResult(response.data);
+      setCurrentPage(1); // Сброс пагинации при новом запросе
     } catch (error) {
       console.error('Error uploading file:', error);
     }
   };
+
+  // Рассчет данных для пагинации
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = result.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(result.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="App">
@@ -41,11 +52,46 @@ function App() {
             <button type="submit">Send to Prediction</button>
           </div>
         </form>
-        {result && (
-          <div>
-            <h2>Prediction Result</h2>
-            <p>Prediction: {result.prediction ? 'Fraud' : 'Not Fraud'}</p>
-            <p>Confidence: {result.confidence}</p>
+        
+        {result.length > 0 && (
+          <div className="results-container">
+            <h2>Prediction Results</h2>
+            <table className="results-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Prediction</th>
+                  <th>Confidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((item, index) => (
+                  <tr key={index}>
+                    <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                    <td>{item.prediction ? 'Fraud' : 'Not Fraud'}</td>
+                    <td>{(item.confidence * 100).toFixed(2)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <div className="pagination">
+              <button 
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              
+              <span>Page {currentPage} of {totalPages}</span>
+              
+              <button 
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
       </header>
