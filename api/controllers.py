@@ -16,8 +16,7 @@ async def csv_train_handler(file: UploadFile = File(...)) -> str:
         raise HTTPException(status_code=400, detail="Файл не выбран")
     if file.content_type != "application/octet-stream":
         raise HTTPException(status_code=400, detail="File type is not supported")
-    await csv_train(file.file)
-    return "Success!"
+    return await csv_train(file.file)
 
 @router.post("/csv/predict")
 async def csv_predict_handler(file: UploadFile):
@@ -30,5 +29,5 @@ async def csv_predict_handler(file: UploadFile):
 
 @router.post("/json/predict")
 async def json_predict_handler(body: list[Dataset]):
-    ans = json_predict(body)
-    return ans
+    res = await json_predict(body)
+    return res

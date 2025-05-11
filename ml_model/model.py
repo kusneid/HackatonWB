@@ -7,7 +7,7 @@ from scipy import linalg
 from sklearn.preprocessing import StandardScaler
 import joblib
 
-def predict(data):
+async def predict(data):
     df_predict = data
     df_train = pd.read_csv(os.path.join("ml_model","resources","df_train.csv"))
 
