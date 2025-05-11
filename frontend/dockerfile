@@ -1,0 +1,29 @@
+# Стадия сборки
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Копируем файлы зависимостей для кэширования
+COPY package*.json ./
+RUN npm ci --silent
+
+# Копируем исходный код
+COPY . .
+
+# Собираем приложение
+RUN npm run build
+
+# Финальная стадия
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Устанавливаем serve для статических файлов
+RUN npm install -g serve
+
+# Копируем собранное приложение
+COPY --from=builder /app/build ./build
+
+# Открываем порт и запускаем сервер
+EXPOSE 3000
+CMD ["serve", "-s", "build", "-l", "3000"]

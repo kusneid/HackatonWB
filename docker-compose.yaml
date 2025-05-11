@@ -14,7 +14,7 @@ services:
 
     frontend:
         build:
-            context: C:\Users\kiril\PycharmProjects\HackatonWB-front\frontend
+            context: .\frontend # Собирает образ из Dockerfile в директории frontend
         image: huckaton_wf:latest
         ports:
             - "3000:3000"

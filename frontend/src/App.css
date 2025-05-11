@@ -1,0 +1,164 @@
+/* App.css */
+.App {
+  text-align: center;
+}
+.App-header {
+  background: linear-gradient(45deg, #5500ff, #d9aaff);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: calc(10px + 2vmin);
+}
+.mode-switch {
+  margin-bottom: 20px;
+}
+.mode-switch button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  background-color: #b58dfe;
+  color: white;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+.mode-switch button.active,
+.mode-switch button:hover {
+  background-color: #7c0095;
+  transform: translateY(-2px);
+}
+.csv-form,
+.single-record-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 1fr));
+  gap: 15px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.csv-form input[type="file"] {
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.csv-form button,
+.single-record-form button {
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  background-color: #b58dfe;
+  color: white;
+  box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+.csv-form button:hover,
+.single-record-form button:hover {
+  background-color: #7c0095;
+  transform: translateY(-2px);
+}
+.single-record-form input,
+.single-record-form select {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  flex: 1 1 200px;
+}
+.checkbox-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  margin: 10px 0;
+}
+.results-container {
+  width: 90%;
+  max-width: 800px;
+}
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+.results-table th,
+.results-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  color: #333;
+}
+.results-table th {
+  background: #4caf50;
+  color: white;
+}
+.results-table tr:nth-child(even) {
+  background: #f2f2f2;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+.pagination button {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 15px;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+.pagination button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.csv-form button,
+.mode-switch button {
+  background: none;
+  box-shadow: none;
+}
+
+/* Универсальный стиль для всех кнопок */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(45deg, #b58dfe, #7c0095);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s ease, background 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Hover/Active для всех кнопок */
+button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Пагинация без градиента, но тоже унифицированная */
+.pagination button {
+  background: #7c0095;
+}
+
+.pagination button:hover {
+  background: #5500ff;
+}
+
+.mode-switch {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
