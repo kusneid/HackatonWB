@@ -1,0 +1,21 @@
+version: '3.8'
+name: Huckaton
+
+services:
+    backend:
+        build:
+            context: .  # Собирает образ из Dockerfile в текущей директории
+        image: huckaton_wb:latest
+        ports:
+            - "8000:8000"  # Пробрасывает порт 8000 хоста в порт 8000 контейнера
+        depends_on:
+            - frontend  # Ожидает запуска сервиса frontend
+        restart: unless-stopped
+
+    frontend:
+        build:
+            context: C:\Users\kiril\PycharmProjects\HackatonWB-front\frontend
+        image: huckaton_wf:latest
+        ports:
+            - "3000:3000"
+        restart: unless-stopped

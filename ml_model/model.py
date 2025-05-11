@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import numpy as np
 from scipy.spatial.distance import mahalanobis
@@ -7,7 +9,7 @@ import joblib
 
 def predict(data):
     df_predict = data
-    df_train = pd.read_csv(r"ml_model\resources\df_train.csv")
+    df_train = pd.read_csv(os.path.join("ml_model","resources","df_train.csv"))
 
     numeric = [
         'total_ordered', 'count_items', 'unique_items', 'Distance',
@@ -68,7 +70,7 @@ def predict(data):
     for df in (df_train, df_predict):
         df.drop(columns=['user_id', 'nm_id', 'CreatedDate'], inplace=True)
 
-    data = joblib.load(r"ml_model\resources\lgbm_model_with_threshold.pkl")
+    data = joblib.load(os.path.join("ml_model","resources","lgbm_model_with_threshold.pkl"))
     best_model = data['model']
     best_threshold = data['threshold']
 
