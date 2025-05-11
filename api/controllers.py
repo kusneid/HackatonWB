@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Body, UploadFile, HTTPException, File
+from fastapi import APIRouter, UploadFile, HTTPException, File
 
-from api.dtos import Result
-from ml_model.main import csv_train, csv_predict, json_train, json_predict
+from api.dtos import Dataset
+from ml_model.main import csv_train, csv_predict, json_predict
 
 router = APIRouter(prefix="/model", tags=["model"])
 
@@ -29,6 +29,6 @@ async def csv_predict_handler(file: UploadFile):
     return res
 
 @router.post("/json/predict")
-async def json_predict_handler(body = Body()):
+async def json_predict_handler(body: list[Dataset]):
     ans = json_predict(body)
     return ans
