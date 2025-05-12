@@ -34,12 +34,32 @@ function App() {
 
   const handleRecordSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const form = e.target;
+    const formData = {};
+
+    // Текстовые и числовые поля
+    const fields = [
+      'user_id', 'nm_id', 'CreatedDate', 'service', 'total_ordered',
+      'PaymentType', 'count_items', 'unique_items', 'avg_unique_purchase',
+      'NmAge', 'Distance', 'DaysAfterRegistration', 'number_of_orders',
+      'number_of_ordered_items', 'mean_number_of_ordered_items',
+      'min_number_of_ordered_items', 'max_number_of_ordered_items',
+      'mean_percent_of_ordered_items'
+    ];
+    fields.forEach(name => {
+      formData[name] = form.elements[name].value;
+    });
+
+    // Булевое флажки
+    formData['IsPaid'] = form.elements['IsPaid'].checked ? 'true' : 'false';
+    // is_courier — числовое: 1 если галочка, иначе 0
+    formData['is_courier'] = form.elements['is_courier'].checked ? '1' : '0';
+
     try {
       const { data } = await axios.post(
-        'http://localhost:8000/model/csv/predict',
-        formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
+        'http://localhost:8000/model/json/predict',
+        JSON.stringify([formData]),
+        { headers: { 'Content-Type': 'application/json' } }
       );
       setResult(data);
       setCurrentPage(1);
@@ -60,7 +80,7 @@ function App() {
       <header className="App-header">
         <h1>Order Fraud Prediction</h1>
 
-        {/* Кнопки-переключатели */}
+        {/* Кнопки */}
         <div className="mode-switch">
           <button
             type="button"
@@ -78,7 +98,7 @@ function App() {
           </button>
         </div>
 
-        {/* Форма загрузки CSV */}
+        {/* Загрузка CSV */}
         {!showForm && (
           <form onSubmit={handleCsvSubmit} className="csv-form">
             <input
@@ -91,7 +111,7 @@ function App() {
           </form>
         )}
 
-        {/* Форма единственной записи */}
+        {/* Форма для одиной записи */}
         {showForm && (
           <form onSubmit={handleRecordSubmit} className="single-record-form">
             <input type="text" name="user_id" placeholder="User ID" required />
@@ -117,10 +137,10 @@ function App() {
             />
             <div className="checkbox-container">
               <label>
-                <input type="checkbox" name="IsPaid" value="True" /> Is Paid
+                <input type="checkbox" name="IsPaid" /> Is Paid
               </label>
               <label>
-                <input type="checkbox" name="is_courier" value="True" /> Is Courier
+                <input type="checkbox" name="is_courier" /> Is Courier
               </label>
             </div>
             <input type="number" name="count_items" placeholder="Count Items" required />
@@ -179,7 +199,7 @@ function App() {
           </form>
         )}
 
-        {/* Таблица результатов */}
+        {/* Вывод резов */}
         {result.length > 0 && (
           <div className="results-container">
             <h2>Prediction Results</h2>
