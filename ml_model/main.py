@@ -8,7 +8,7 @@ from ml_model.model import predict
 
 async def csv_train(file):
     res = "Fail"
-    with open(os.path.join("ml_model","resources","lgbm_model_with_threshold.pkl")) as f:
+    with open(os.path.join("ml_model","resources","lgbm_model_with_threshold.pkl"), "wb") as f:
         content = file.read()  # Чтение содержимого
         f.write(content)
         res = "Success!!!!"
