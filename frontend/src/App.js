@@ -35,7 +35,7 @@ function App() {
   const handleRecordSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
-    const formData = new FormData();
+    const formData = {};
 
     // Текстовые и числовые поля
     const fields = [
@@ -47,19 +47,19 @@ function App() {
       'mean_percent_of_ordered_items'
     ];
     fields.forEach(name => {
-      formData.append(name, form.elements[name].value);
+      formData[name] = form.elements[name].value;
     });
 
     // Булевое флажки
-    formData.append('IsPaid', form.elements['IsPaid'].checked ? 'True' : 'False');
+    formData['IsPaid'] = form.elements['IsPaid'].checked ? 'true' : 'false';
     // is_courier — числовое: 1 если галочка, иначе 0
-    formData.append('is_courier', form.elements['is_courier'].checked ? '1' : '0');
+    formData['is_courier'] = form.elements['is_courier'].checked ? '1' : '0';
 
     try {
       const { data } = await axios.post(
-        'http://localhost:8000/model/csv/predict',
-        formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
+        'http://localhost:8000/model/json/predict',
+        JSON.stringify([formData]),
+        { headers: { 'Content-Type': 'application/json' } }
       );
       setResult(data);
       setCurrentPage(1);
