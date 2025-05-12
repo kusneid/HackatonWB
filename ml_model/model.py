@@ -43,15 +43,13 @@ async def predict(data):
     # Преобразуем CreateDate в часы дни недели
     for df in (df_train, df_predict):
         df['hour'] = df['CreatedDate'].dt.hour
-        df['weekday'] = df['CreatedDate'].dt.weekday
 
 
     df_train['temp'] = 0
     df_predict['temp'] = 1
     full = pd.concat([df_train, df_predict], axis=0)
     # Делаем для service и PaymentType One Hot encoding
-    full = pd.get_dummies(full, columns=['service', 'PaymentType', 'hour',
-                                         'weekday'], drop_first=False)
+    full = pd.get_dummies(full, columns=['service', 'PaymentType', 'hour'], drop_first=False)
     df_train = full[full['temp'] == 0].drop(columns='temp')
     df_predict = full[full['temp'] == 1].drop(columns='temp')
 
