@@ -187,6 +187,7 @@ curl -X POST -H "Content-Type: application/json" \
 docker-compose build --no-cache && docker-compose up -d
 ```
 
+### По окончанию выполнения будет доступен **[Веб-интерфейс](http://localhost:3000)**
 
 ### Требования к эксплуатации
 Для запуска сборки требуется чтобы порты 8000 и 3000 были свободны.
